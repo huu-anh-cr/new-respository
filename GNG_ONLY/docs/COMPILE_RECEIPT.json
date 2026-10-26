@@ -1,0 +1,10 @@
+{
+  "compiler": "Tectonic 0.17.0+20260731 / XeTeX",
+  "command": "tectonic -X compile HE_AGENT_GNG.tex --untrusted --keep-logs",
+  "source": "HE_AGENT_GNG.tex",
+  "source_sha256": "8d6dd914efed73d785af31f84a76830aac1c5aca2ee3710798eaf186c568edfa",
+  "output": "HE_AGENT_GNG.pdf",
+  "output_sha256": "2eed72242b8f6b5f2556e39676110e1c6f67195a37024fc4b0c13513c53d1bd9",
+  "pages": 11,
+  "created_date": "2026-10-04"
+}

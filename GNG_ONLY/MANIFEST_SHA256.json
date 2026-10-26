@@ -1,0 +1,191 @@
+{
+  "package": "GNG_ONLY",
+  "created_date": "2026-10-04",
+  "files": [
+    {
+      "path": ".agents/rules/gng_models.md",
+      "bytes": 14303,
+      "sha256": "b0038b8338b5012164a011120c3cb87c6c2dbd4e7a51610333dabee9a66ecc74"
+    },
+    {
+      "path": ".agents/skills/ext-agy-auto-resume/scripts/auto_resume.py",
+      "bytes": 6285,
+      "sha256": "f5659ae6376992a34646127d442480feb4c0b8df11d8534549b0811c13bd2177"
+    },
+    {
+      "path": ".agents/skills/ext-agy-auto-resume/SKILL.md",
+      "bytes": 6098,
+      "sha256": "6189df7c8bdd5d2a44abae3c3141c3ec453872fe8b4ee26c68af7cbcea246429"
+    },
+    {
+      "path": ".agents/skills/gng-smooth-book/scripts/docx_book_styler_v2.py",
+      "bytes": 16802,
+      "sha256": "796c66338cee61fdc14af7c0ba5e7b6c2c121c288a88425d8ead037043bfe058"
+    },
+    {
+      "path": ".agents/skills/gng-smooth-book/scripts/eval_cpsi_metrics.py",
+      "bytes": 7158,
+      "sha256": "d3dd80c66954e1145f66d1b6d5e945d73f0429ba04b30d1f5d7881adbda4bc31"
+    },
+    {
+      "path": ".agents/skills/gng-smooth-book/scripts/gng_smooth_book_pipeline.py",
+      "bytes": 34538,
+      "sha256": "546c2985ac2da086575d90e68ff7d22b8f16a42b43a4ad5385a0a993b5e9111c"
+    },
+    {
+      "path": ".agents/skills/gng-smooth-book/SKILL.md",
+      "bytes": 1650,
+      "sha256": "874e56c8582cb2dc35ae05b1a8cc45055e2ec84fef6e82341b9bbf1a3754377f"
+    },
+    {
+      "path": ".agents/skills/gng1-default/SKILL.md",
+      "bytes": 1711,
+      "sha256": "9bdf9539e63a8719d38cb992f6c597512198ed23c9b255d1655ea15bd7421260"
+    },
+    {
+      "path": ".agents/skills/gng2-direct/SKILL.md",
+      "bytes": 1394,
+      "sha256": "031d692dfdf4f26ab7e5ea9bcb4b7bc6710b399b5229b55beb2a08860be541ed"
+    },
+    {
+      "path": ".agents/skills/gng3-pro-ensemble/SKILL.md",
+      "bytes": 1600,
+      "sha256": "9a2c40a3f7a02ea5b247e0f536d470eaf633a3e8e88765c13c70bdf62356015b"
+    },
+    {
+      "path": ".agents/skills/gng4-apex/SKILL.md",
+      "bytes": 1477,
+      "sha256": "cfb5ef20a9fe46f571a3692f2bd2319d9c3e4c9c7987eb17eb10defe140828dd"
+    },
+    {
+      "path": ".agents/skills/gng5-sovereign-gate/SKILL.md",
+      "bytes": 2087,
+      "sha256": "a4d722d7ec43da8c370c2becbf2e6c547b570e5099d70dd3e665e61e533761f9"
+    },
+    {
+      "path": ".agents/skills/gng7-book-editorial/references/editorial_guidelines.md",
+      "bytes": 3222,
+      "sha256": "51b8e74e97bc6ccb13cd295dd4e6e4008663599ebae5ddfb2e305c033bad466f"
+    },
+    {
+      "path": ".agents/skills/gng7-book-editorial/scripts/audit_book_collection.py",
+      "bytes": 3501,
+      "sha256": "70a82cffd79817ea7561cf9929107acedbb5dcb027c880ddff5fa0ce55d422b6"
+    },
+    {
+      "path": ".agents/skills/gng7-book-editorial/scripts/gng7_book_pipeline.py",
+      "bytes": 12664,
+      "sha256": "3707aeae19b26646d42a002ba0ae2e6189234a1844aaef0dc664a23a7a9e12ed"
+    },
+    {
+      "path": ".agents/skills/gng7-book-editorial/scripts/render_book_docx.py",
+      "bytes": 9562,
+      "sha256": "2901902625557c3afa0c9eb289ad1ed88ff987875cb27480f77f342ed251d2b5"
+    },
+    {
+      "path": ".agents/skills/gng7-book-editorial/SKILL.md",
+      "bytes": 6886,
+      "sha256": "271d00a4935e43e4c67e407ecfdeab5897b6d895c3868aaee538e87ed37220f0"
+    },
+    {
+      "path": ".agents/skills/gng7-math-prover/SKILL.md",
+      "bytes": 2772,
+      "sha256": "407847db8521f170d827672f647c222cc5f6967e7048fed85be132ca187b78c4"
+    },
+    {
+      "path": ".agents/skills/gng8-general-solver/SKILL.md",
+      "bytes": 2858,
+      "sha256": "b7d742148a4ccf1f8b13660fc07fe40c1dbab302b3021359944b645469f2bee0"
+    },
+    {
+      "path": "check_gng.py",
+      "bytes": 1297,
+      "sha256": "5788b672733024c1323dbce766211373c32d2e48483461e23ce4553a8ec3e011"
+    },
+    {
+      "path": "docs/BIEN_DICH.md",
+      "bytes": 1021,
+      "sha256": "8c38bb274709fa9ab7a7df588fadc92a0853c22b31eb1161e628fa859a6520b6"
+    },
+    {
+      "path": "docs/COMPILE_RECEIPT.json",
+      "bytes": 423,
+      "sha256": "015ef0cc1310b1689ed8e658260da174cb15632bc233398625b6ec91449e0463"
+    },
+    {
+      "path": "docs/HE_AGENT_GNG.pdf",
+      "bytes": 73075,
+      "sha256": "2eed72242b8f6b5f2556e39676110e1c6f67195a37024fc4b0c13513c53d1bd9"
+    },
+    {
+      "path": "docs/HE_AGENT_GNG.tex",
+      "bytes": 28043,
+      "sha256": "8d6dd914efed73d785af31f84a76830aac1c5aca2ee3710798eaf186c568edfa"
+    },
+    {
+      "path": "docs/SOURCE_INDEX.csv",
+      "bytes": 6121,
+      "sha256": "ee061874dcf36d7fa219a99953ba1f1a6a881112973978c73d1c3984425dbb4b"
+    },
+    {
+      "path": "gng1.py",
+      "bytes": 524,
+      "sha256": "7e14e2c7ebaa711fcb2ab80fe0ff737467aa51e3b882f475996f776e167fd75f"
+    },
+    {
+      "path": "gng2.py",
+      "bytes": 517,
+      "sha256": "1f715952002b0a3621a1b4b972468c63720a8149127216e3c35eb1253563c109"
+    },
+    {
+      "path": "gng3.py",
+      "bytes": 494,
+      "sha256": "6faa17da6d776b2250dd97ca6a7be7c1b8bf75f7ca75232cf98f939db4298ceb"
+    },
+    {
+      "path": "gng4.py",
+      "bytes": 503,
+      "sha256": "3003c98110266c9857f7ea3b342d72bb6f95b9177ec5a32fea738b9d4daa0812"
+    },
+    {
+      "path": "gng5.py",
+      "bytes": 523,
+      "sha256": "1580090357f84eb2793e20a9897eb2abc78504aea6f15cf662bba92a72ca872a"
+    },
+    {
+      "path": "gng6.py",
+      "bytes": 742,
+      "sha256": "ff1e842c71e1b5de8a1276a7db0435a62025502c33e1091c75925b045896d665"
+    },
+    {
+      "path": "gng7.py",
+      "bytes": 533,
+      "sha256": "1d92bedc12cb41a0191ece1ee44f01f0a3892f36f1d42252b0581b59099d5bf1"
+    },
+    {
+      "path": "gng8.py",
+      "bytes": 544,
+      "sha256": "4b4db7d4ca168965890f3d4371ed1559b63d5df2e2198c88b037ec271184f819"
+    },
+    {
+      "path": "README.md",
+      "bytes": 1959,
+      "sha256": "8f74e4b83f908226bfc3a3b48012823022ac7f67e4fd2c1f15cbe60a6f45b801"
+    },
+    {
+      "path": "requirements.txt",
+      "bytes": 116,
+      "sha256": "e031f5ec06cc2fa2736da3f6a6acad24847744cfa5cd69c754296408f47eb4f9"
+    },
+    {
+      "path": "SOURCE_PROVENANCE.json",
+      "bytes": 10506,
+      "sha256": "7fab14a3a15cc349c701f861fe16f24a9a643dbbd6a986f486f7870d65b10b9c"
+    },
+    {
+      "path": "verify_package.py",
+      "bytes": 960,
+      "sha256": "f3170d16cedd56c3c640f368f66bc43d8cfc968870bdda04963622b2e6b3cc05"
+    }
+  ]
+}

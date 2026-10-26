@@ -1,0 +1,398 @@
+% Standalone document. Compile with XeLaTeX or LuaLaTeX.
+% All figures are native TikZ, no external project files are required.
+\documentclass[11pt,a4paper]{article}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[utf8]{inputenc}
+  \usepackage[T5]{fontenc}
+  \usepackage[vietnamese]{babel}
+\else
+  \usepackage{fontspec}
+  \setmainfont{lmroman10-regular.otf}[BoldFont=lmroman10-bold.otf,ItalicFont=lmroman10-italic.otf,BoldItalicFont=lmroman10-bolditalic.otf]
+  \setsansfont{lmsans10-regular.otf}[BoldFont=lmsans10-bold.otf,ItalicFont=lmsans10-oblique.otf,BoldItalicFont=lmsans10-boldoblique.otf]
+  \setmonofont{lmmono10-regular.otf}
+\fi
+\usepackage[margin=2.05cm,headheight=15pt]{geometry}
+\usepackage{xcolor,graphicx,booktabs,tabularx,array,enumitem}
+\usepackage{amsmath,amssymb}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning,calc}
+\usepackage{fancyhdr,hyperref,microtype}
+\definecolor{forest}{HTML}{183A30}
+\definecolor{jade}{HTML}{2D7056}
+\definecolor{pale}{HTML}{EDF4EF}
+\definecolor{muted}{HTML}{52665E}
+\definecolor{gold}{HTML}{AB813D}
+\hypersetup{colorlinks=true,linkcolor=forest,urlcolor=jade,pdftitle={Hệ agent GNG: ý nghĩa, kiến trúc và sử dụng},pdfauthor={Tài liệu tổng hợp hệ GNG}}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\sffamily\color{forest}HỆ AGENT @gng}
+\fancyhead[R]{\small\sffamily\color{muted}Kiến trúc và sử dụng}
+\fancyfoot[C]{\small\thepage}
+\renewcommand{\headrulewidth}{0.3pt}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.55em}
+\setlength{\emergencystretch}{2em}
+\setlist[itemize]{leftmargin=1.4em,itemsep=0.28em,topsep=0.3em}
+\setlist[enumerate]{leftmargin=1.6em,itemsep=0.3em,topsep=0.3em}
+\newcolumntype{Y}{>{\raggedright\arraybackslash}X}
+\newcommand{\agent}[1]{\texttt{@gng#1}}
+\newcommand{\term}[1]{\textbf{\color{forest}#1}}
+\newcommand{\srcref}[1]{\par{\small\color{muted}Nguồn: #1.}\par}
+\newcommand{\keypoint}[1]{\par\smallskip\noindent\colorbox{pale}{\parbox{\dimexpr\linewidth-2\fboxsep\relax}{\color{forest}#1}}\par\smallskip}
+\newcommand{\code}[1]{\texttt{\detokenize{#1}}}
+\tikzset{block/.style={draw=jade!50,fill=pale,rounded corners=2pt,align=center,minimum height=1.05cm,text width=3.1cm,font=\small},flow/.style={-{Stealth[length=2mm]},draw=jade,thick},smallblock/.style={block,text width=2.65cm}}
+
+\begin{document}
+\pagenumbering{roman}
+\begin{titlepage}
+\color{forest}
+\vspace*{1.3cm}
+{\sffamily\Large TÀI LIỆU HỆ SINH THÁI TÁC TỬ GEMINI\par}
+\vspace{1.0cm}
+{\sffamily\bfseries\fontsize{35}{42}\selectfont Hệ agent @gng\par}
+\vspace{0.5cm}
+{\sffamily\fontsize{21}{28}\selectfont Ý nghĩa, kiến trúc\par và cách sử dụng hiệu quả\par}
+\vspace{1.1cm}
+\begin{tikzpicture}[node distance=0.55cm]
+\node[block,text width=3.5cm] (a) {Đặc tả nhiệm vụ};
+\node[block,text width=3.5cm,right=of a] (b) {Quy trình điều phối};
+\node[block,text width=3.5cm,right=of b] (c) {Kết quả và bằng chứng};
+\draw[flow] (a)--(b);\draw[flow] (b)--(c);
+\end{tikzpicture}\par
+\vspace{1.0cm}
+{\large Tám định danh điều phối, từ kiểm tra yêu cầu\par đến chứng minh toán học và triển khai phần mềm.\par}
+\vfill
+\keypoint{\textbf{Phạm vi tài liệu}\par
+Tổng hợp từ bộ quy tắc, kỹ năng, launcher và script GNG do người dùng cung cấp. Các mô tả kiến trúc phản ánh thiết kế trong nguồn. Những điều kiện chưa đủ để vận hành CLI được trình bày riêng.}
+\vspace{0.4cm}
+{\sffamily\large Phiên bản 04/10/2026\par}
+\end{titlepage}
+\pagenumbering{arabic}
+
+\section{Ý nghĩa và bản đồ vai trò}
+Trong gói nguồn, \code{@gng1} đến \code{@gng8} là các định danh điều phối cho họ tác tử Gemini trong Antigravity. Mỗi định danh tương ứng với một cách xử lý công việc. Tài liệu nguồn không quy định một tên đầy đủ riêng cho chữ viết tắt GNG.
+
+\term{Rules} mô tả cách nhận diện định danh và chọn quy trình. \term{Skills} ghi nhiệm vụ, trình tự xử lý và đầu ra. \term{Runtime} cung cấp model, công cụ và các giới hạn thực thi. Gõ một định danh trong prompt không tự xác nhận model đã đổi hoặc tác tử con đã chạy.
+
+\begin{tabularx}{\linewidth}{@{}p{1.35cm}>{\raggedright\arraybackslash}p{4.2cm}Y@{}}
+\toprule
+\textbf{Agent}&\textbf{Vai trò trong thiết kế}&\textbf{Công việc phù hợp}\\\midrule
+\agent{1}&Epistemic Gate&Kiểm tra đặc tả, giả thiết ngầm, miền xác định và phản ví dụ sơ cấp.\\[0.6em]
+\agent{2}&Direct Pass-Through&Giải thích, viết nội dung hoặc code khi yêu cầu đã rõ.\\[0.6em]
+\agent{3}&Pro-Ensemble bốn tầng&So sánh hướng giải và phân tích đối kháng.\\[0.6em]
+\agent{4}&Apex với verifier/auto-repair&Nhiệm vụ sâu cần kiểm chứng và sửa nhiều vòng.\\[0.6em]
+\agent{5}&Sovereign Gate&Thẩm định độc lập lời giải hoặc phương án quan trọng.\\[0.6em]
+\agent{6}&Fast Direct&Tóm tắt ngắn, giải thích thuật ngữ, chỉnh một hàm nhỏ.\\[0.6em]
+\agent{7}&Math Prover và Book Editorial&Chứng minh toán học hoặc chuyển transcript thành bản thảo sách.\\[0.6em]
+\agent{8}&General Problem Solver&Kiến trúc, lập trình, kiểm thử và xử lý vấn đề kỹ thuật.\\
+\bottomrule
+\end{tabularx}
+
+\keypoint{\textbf{Nguyên tắc chọn agent:} chọn mức điều phối tương ứng với độ khó và nhu cầu kiểm chứng. Câu hỏi ngắn có thể dùng \agent{2}/\agent{6}. Đặc tả chưa rõ nên qua \agent{1}. Công việc chuyên môn đi vào \agent{7} hoặc \agent{8}.}
+\agent{6} có launcher nhưng không có skill riêng trong nguồn. Launcher dùng một trong các engine trực tiếp mà nó tìm được. Hai chức năng của \agent{7} dùng hai skill riêng, nên prompt cần ghi rõ toán học hay biên tập sách.
+
+\srcref{\texttt{gng\_models.md} và tám \texttt{SKILL.md} chuyên biệt GNG}
+\newpage
+
+\section{Kiến trúc hai mặt phẳng thực thi}
+\subsection{Antigravity Native}
+Thiết kế ưu tiên agent của IDE đọc quy tắc và kỹ năng ngay trong workspace. Agent dùng công cụ của phiên để đọc/ghi file, khảo sát mã nguồn, chạy lệnh và tạo artifact. Theo quy tắc nguồn, mặt phẳng này không cần bridge Gemini tại cổng 5007.
+
+\begin{center}
+\begin{tikzpicture}[node distance=0.5cm]
+\node[smallblock] (a) {Prompt\par\code{@gngX}};
+\node[smallblock,right=of a] (b) {Rules và\par Skills};
+\node[smallblock,right=of b] (c) {Agent IDE\par Model/công cụ};
+\node[smallblock,right=of c] (d) {Artifact\par Audit log};
+\draw[flow] (a)--(b);\draw[flow] (b)--(c);\draw[flow] (c)--(d);
+\end{tikzpicture}\par
+\end{center}
+
+\subsection{Standalone CLI}
+Các file \code{gng1.py} đến \code{gng8.py} tại root là launcher. Chúng kiểm tra một đường dẫn đích rồi dùng \code{runpy.run_path} để chuyển quyền thực thi. Các engine đích nằm ngoài archive nguồn và dùng đường dẫn cố định trên ổ F:.
+
+\begin{center}
+\begin{tikzpicture}[node distance=0.5cm]
+\node[smallblock] (a) {\code{python}\par\code{gngX.py}};
+\node[smallblock,right=of a] (b) {Launcher\par\code{runpy}};
+\node[smallblock,right=of b] (c) {Engine đích\par Ngoài gói};
+\node[smallblock,right=of c] (d) {Kết quả\par của CLI};
+\draw[flow] (a)--(b);\draw[flow] (b)--(c);\draw[flow] (c)--(d);
+\end{tikzpicture}\par
+\end{center}
+
+\keypoint{\textbf{Điều kiện vận hành:} giải nén launcher và nạp rules/skills chưa đủ để CLI GNG chạy. Gói riêng giữ launcher để tra cứu nhưng không giả lập các engine còn thiếu. Các script biên tập sách có mã nguồn thực thi riêng, vẫn cần \code{agy} và model/runtime phù hợp.}
+
+\subsection{Cấu trúc gói riêng GNG}
+\begin{tabularx}{\linewidth}{@{}p{6.2cm}Y@{}}
+\toprule
+\textbf{Thành phần}&\textbf{Mục đích}\\\midrule
+\code{.agents/rules/gng_models.md}&Quy tắc điều phối của họ GNG.\\[0.5em]
+\code{.agents/skills/gng*}&Tám skill, tài liệu tham chiếu và script sách.\\[0.5em]
+\code{gng1.py} đến \code{gng8.py}&Launcher nguồn và đường dẫn engine cần đối chiếu.\\[0.5em]
+\code{.agents/skills/gng-smooth-book}&Pipeline làm mượt và phụ thuộc được tách riêng.\\[0.5em]
+\code{docs/}&Tài liệu LaTeX, PDF, nguồn tham chiếu và danh mục.\\[0.5em]
+\code{verify_package.py}&Xác minh danh mục và SHA-256 của gói.\\
+\bottomrule
+\end{tabularx}
+\srcref{quy tắc GNG và mã của tám launcher}
+\newpage
+
+\section{Điều phối bốn tầng và cổng thẩm định}
+\subsection{Đồ thị của \agent{3}}
+\begin{center}
+\begin{tikzpicture}[node distance=0.6cm]
+\node[smallblock] (a) {Alpha\par Đặc tả và kế hoạch};
+\node[smallblock,right=of a,yshift=0.85cm] (b1) {Beta-1\par Hướng kiến tạo};
+\node[smallblock,right=of a,yshift=-0.85cm] (b2) {Beta-2\par Hướng phản biện};
+\node[smallblock,right=of b1,yshift=-0.85cm] (g) {Gamma\par Kiểm tra bất biến};
+\node[smallblock,right=of g] (o) {Omega\par Hợp nhất kết quả};
+\draw[flow] (a.east)--++(0.25,0)|-(b1.west);
+\draw[flow] (a.east)--++(0.25,0)|-(b2.west);
+\draw[flow] (b1.east)--++(0.25,0)|-(g.west);
+\draw[flow] (b2.east)--++(0.25,0)|-(g.west);
+\draw[flow] (g)--(o);
+\end{tikzpicture}\par
+\end{center}
+Alpha làm rõ tiền điều kiện và điều kiện biên. Beta tạo hai hướng độc lập để tránh lặp một lập luận. Gamma tìm sai lệch. Omega chỉ hợp nhất sau khi xử lý những lỗi có căn cứ. \agent{4} mở rộng thiết kế này bằng vòng verifier và auto-repair.
+
+Để kết quả kiểm chứng được, yêu cầu log nêu lỗi, vị trí nguồn, mức ảnh hưởng, cách sửa và bằng chứng sau sửa. Nhãn ``đã kiểm tra'' không đủ nếu thiếu test, phép tính hoặc phản ví dụ cụ thể.
+
+\subsection{Song trụ của \agent{5}}
+\agent{4} đóng vai trò Prover xây dựng lời giải. \agent{3} đóng vai trò Refuter tìm lỗi và phản ví dụ. Cổng thẩm định đọc cả hai hướng rồi ban hành phán quyết cùng lỗi còn mở.
+
+\begin{tabularx}{\linewidth}{@{}p{1.1cm}p{4.6cm}Y@{}}
+\toprule
+\textbf{Cổng}&\textbf{Tiêu chí}&\textbf{Bằng chứng cần có}\\\midrule
+T1&Tính đúng logic&Chuỗi suy luận và giả thiết hợp lệ.\\[0.5em]
+T2&Khả năng chịu phản ví dụ&Kiểm tra điều kiện biên, trường hợp suy biến.\\[0.5em]
+T3&Tính khách quan&Phản biện yêu cầu sai và ghi nhận bất đồng.\\[0.5em]
+T4&Khả năng tái lập&Lệnh, biểu thức hoặc test người khác chạy lại được.\\[0.5em]
+T5&Dấu vết Merkle&Hash của artifact và quan hệ phụ thuộc rõ.\\
+\bottomrule
+\end{tabularx}
+
+\keypoint{SHA-256 xác nhận sự thay đổi byte. Một Merkle ledger hoặc nhãn \code{SOVEREIGN_PASSED} không tự chứng minh lời giải đúng. Chỉ số AAS là chỉ số nội bộ, cần đọc cùng bằng chứng.}
+\srcref{skills \texttt{gng3-pro-ensemble}, \texttt{gng4-apex}, \texttt{gng5-sovereign-gate}}
+\newpage
+
+\section{\agent{7} cho chứng minh toán học}
+Thiết kế toán học gồm khảo sát các hướng chứng minh, phân rã Lemma-DAG, phản biện đối kháng và kiểm toán bản chứng minh. DAG là đồ thị phụ thuộc không chu trình. Mỗi bổ đề phải ghi tiền điều kiện, kết luận và bất biến liên quan.
+
+\begin{center}
+\begin{tikzpicture}[node distance=0.5cm]
+\node[smallblock] (a) {Khảo sát\par Các hướng độc lập};
+\node[smallblock,right=of a] (b) {Lemma-DAG\par Hợp đồng bổ đề};
+\node[smallblock,right=of b] (c) {Đối kháng\par Phản ví dụ};
+\node[smallblock,right=of c] (d) {Kiểm toán\par Bản chứng minh};
+\draw[flow] (a)--(b);\draw[flow] (b)--(c);\draw[flow] (c)--(d);
+\end{tikzpicture}\par
+\end{center}
+
+\subsection{Đầu ra năm phần}
+\begin{enumerate}
+\item Trạng thái: hoàn chỉnh, có điều kiện, phản ví dụ hoặc chưa hoàn tất.
+\item Phát biểu cuối cùng, lượng từ, miền xác định và giả thiết.
+\item Chiến lược cùng sơ đồ phụ thuộc của các bổ đề.
+\item Bản chứng minh sạch, phân biệt kết quả đã chứng minh với bổ đề còn mở.
+\item Báo cáo kiểm toán với bằng chứng có thể kiểm tra lại.
+\end{enumerate}
+
+\subsection{Ví dụ đặc tả và lượng từ}
+Với phát biểu hội tụ $\forall x_0\in D$, cần làm rõ miền $D$, phép lặp, sự tồn tại của từng bước và ý nghĩa của hội tụ. Không suy từ một ví dụ số $x_0$ sang kết luận cho mọi $x_0$. Nếu hệ số $\alpha$ xuất hiện trong mẫu số hoặc điều kiện bước, phải xác định miền hợp lệ trước khi biến đổi.
+
+\keypoint{\textbf{Prompt mẫu}\par
+\agent{7} đọc \code{theorem.md}. Giữ nguyên lượng từ và miền xác định. Tìm phản ví dụ sơ cấp trước. Nếu khả thi, lập Lemma-DAG. Xuất \code{proof.tex} và \code{audit.md} theo năm phần. Đánh dấu mọi bổ đề chưa chứng minh và mọi giả thiết bổ sung.}
+
+\subsection{Số vai trò và model}
+Nguồn nêu năm hướng khảo sát, mười vai trò kiến tạo và chín vai trò phản biện. Đó là số vai trò trong đặc tả. Cần log thực thi để xác nhận số phiên hoặc tiến trình thật. Tên \code{gemini-3.8-flash-high} trong nguồn là nhãn cấu hình cần đối chiếu với runtime của phiên.
+
+\srcref{skill \texttt{gng7-math-prover} và \texttt{gng\_models.md}}
+\newpage
+
+\section{\agent{7} cho biên tập sách}
+Quy trình Book Editorial chuyển transcript thành văn xuôi có chương mục, giữ luận điểm, số liệu và thuật ngữ nguồn. Nó bỏ khẩu ngữ hoặc mốc thời gian nhưng không thêm kiến thức ngoài bản chép lời. Script gọi \code{agy} qua STDIN và xuất Markdown cùng Word.
+
+\begin{center}
+\begin{tikzpicture}[node distance=0.5cm]
+\node[smallblock] (a) {Transcript\par Nguồn và thuật ngữ};
+\node[smallblock,right=of a] (b) {Biên tập\par Văn xuôi, chương};
+\node[smallblock,right=of b] (c) {Xuất file\par MD và DOCX};
+\node[smallblock,right=of c] (d) {Đối chiếu\par Nghĩa và cấu trúc};
+\draw[flow] (a)--(b);\draw[flow] (b)--(c);\draw[flow] (c)--(d);
+\end{tikzpicture}\par
+\end{center}
+
+\subsection{Lệnh đã đối chiếu với mã nguồn}
+Từ thư mục \code{.agents/skills/gng7-book-editorial/scripts}, chạy một file hoặc một batch. Các đường dẫn đầu vào/đầu ra là ví dụ, cần thay bằng đường dẫn thực tế.
+
+\begin{verbatim}
+python gng7_book_pipeline.py -i transcript.md -o sach
+python gng7_book_pipeline.py --batch transcripts -o sach --workers 1
+python audit_book_collection.py --dir sach
+\end{verbatim}
+
+Phiên bản script này có \code{--batch}, không có \code{--manifest}. Ví dụ \code{--manifest} trong skill nguồn không khớp với argparse. \code{gng7_book_pipeline.py} hardcode nhãn model mức high. Cần \code{agy} đang hoạt động và thư viện \code{python-docx}.
+
+\subsection{Pipeline làm mượt được tách riêng}
+Gói riêng bổ sung \code{gng-smooth-book} với script làm mượt, Word styler và module CPSI. Bản điều chỉnh dùng đường dẫn module tương đối và tìm \code{agy} từ biến môi trường hoặc PATH. Mặc định mức suy luận của script nguồn là low. Dùng \code{--model} hoặc \code{--effort} khi runtime hỗ trợ và nhiệm vụ yêu cầu.
+
+\term{CPSI} kết hợp độ cân bằng số từ, cấu trúc heading, trùng khớp từ vựng và độ tương đồng TF-IDF. Những đại lượng này là tín hiệu so sánh, không phải bằng chứng bảo toàn toàn bộ ý nghĩa.
+
+\keypoint{\textbf{Kiểm tra hai lớp:} audit nhị phân kiểm tra cấu trúc DOCX và hash. Đối chiếu nội dung cần kiểm tra luận điểm, số liệu, thuật ngữ và phần nguồn bị bỏ sót. Hai lớp này trả lời hai câu hỏi khác nhau.}
+\srcref{skill \texttt{gng7-book-editorial}, ba script kèm theo và pipeline làm mượt Gemini}
+\newpage
+
+\section{\agent{8} cho kỹ thuật và phần mềm}
+Thiết kế General Solver khảo sát phương án kiến trúc, phân rã Component-DAG, gắn hợp đồng rồi triển khai và kiểm thử đối kháng. Hợp đồng gồm tiền điều kiện, kết quả, bất biến và cách rollback nếu bước thực thi thất bại.
+
+\begin{center}
+\begin{tikzpicture}[node distance=0.6cm]
+\node[smallblock] (s) {Đặc tả\par Ràng buộc};
+\node[smallblock,right=of s,yshift=0.85cm] (a) {Thành phần A\par Pre/Post/Inv};
+\node[smallblock,right=of s,yshift=-0.85cm] (b) {Thành phần B\par Rollback};
+\node[smallblock,right=of a,yshift=-0.85cm] (i) {Tích hợp\par Theo phụ thuộc};
+\node[smallblock,right=of i] (t) {Test và audit\par Bằng chứng};
+\draw[flow] (s.east)--++(0.25,0)|-(a.west);
+\draw[flow] (s.east)--++(0.25,0)|-(b.west);
+\draw[flow] (a.east)--++(0.25,0)|-(i.west);
+\draw[flow] (b.east)--++(0.25,0)|-(i.west);
+\draw[flow] (i)--(t);
+\end{tikzpicture}\par
+\end{center}
+
+\subsection{Đặc tả làm việc}
+Trước khi viết code, ghi môi trường, dữ liệu vào, API phải giữ, file được sửa và tiêu chí hoàn tất. Với một thành phần đọc CSV, các điều kiện biên gồm encoding, dòng trống, thiếu cột, dữ liệu hỏng và file lớn.
+
+\keypoint{\textbf{Prompt mẫu}\par
+\agent{8} sửa lỗi tải CSV trong \code{src/importer.py} theo \code{sample.csv}. Giữ API và định dạng lỗi. Xuất mã sửa cùng \code{changes.md}. Chạy test encoding, dòng trống và thiếu cột. Nêu lệnh thực sự đã chạy, kết quả và lỗi còn mở. Giới hạn ba vòng sửa.}
+
+\subsection{Tiêu chí hoàn tất}
+\begin{itemize}
+\item Mã nguồn thực hiện hành vi đã mô tả, không thay bằng lời hứa triển khai.
+\item Các test liên quan đến thay đổi và điều kiện biên có kết quả cụ thể.
+\item API contract và định dạng dữ liệu thống nhất giữa các thành phần.
+\item Log phân biệt thao tác đã chạy với kiểm tra chưa thể chạy.
+\item Lỗi còn mở, điều kiện triển khai và rollback có mô tả rõ.
+\end{itemize}
+
+Không cần kích hoạt mọi vai trò cho một chỉnh sửa nhỏ. Đồ thị phụ thuộc giúp chọn phần việc cần thiết và giới hạn ngữ cảnh cho từng bước. Việc chạy song song chỉ có ý nghĩa khi các bước thực sự độc lập.
+\srcref{skill \texttt{gng8-general-solver}}
+\newpage
+
+\section{Thiết lập và sử dụng gói riêng}
+\subsection{Quy trình trong IDE}
+\begin{enumerate}
+\item Giải nén ZIP vào một workspace mới. Giữ thư mục \code{.agents} tại root workspace.
+\item Mở workspace bằng Antigravity. Kiểm tra IDE đã nạp quy tắc và kỹ năng.
+\item Xác nhận model và công cụ thực tế của phiên. Tên định danh không thay thế bước này.
+\item Thử một prompt ngắn với \agent{1} hoặc \agent{2}, quan sát file và công cụ.
+\item Chuyển sang agent chuyên sâu sau khi nguồn vào và tiêu chí kết quả đã rõ.
+\end{enumerate}
+
+Gói này không có cấu hình global, token, bridge hoặc bộ cài đặt của hệ khác. Đối với các script Python, dùng môi trường riêng:
+\begin{verbatim}
+python -m venv .venv
+.venv\Scripts\python.exe -m pip install -r requirements.txt
+python check_gng.py
+\end{verbatim}
+
+\code{check_gng.py} đọc launcher và kiểm tra đường dẫn engine, không gọi model. Nếu báo đích thiếu, cần cung cấp engine thích hợp trước khi dùng CLI tương ứng.
+
+\subsection{Một prompt đủ thông tin}
+\begin{tabularx}{\linewidth}{@{}p{4.1cm}Y@{}}
+\toprule
+\textbf{Thành phần}&\textbf{Ví dụ}\\\midrule
+Agent và mục tiêu&\agent{7}, kiểm tra định lý trong file nguồn.\\[0.5em]
+Nguồn vào&\code{theorem.md}, dataset hoặc module cụ thể.\\[0.5em]
+Ràng buộc&Giữ API, lượng từ hoặc thuật ngữ.\\[0.5em]
+Đầu ra&\code{proof.tex}, \code{audit.md} hoặc mã nguồn.\\[0.5em]
+Kiểm chứng&Test, phản ví dụ, đối chiếu nguồn, tái lập số học.\\[0.5em]
+Ngân sách&Giới hạn số vòng, số file hoặc mức song song.\\
+\bottomrule
+\end{tabularx}
+
+\keypoint{\textbf{Thực hành đề xuất:} thử một mẫu nhỏ trước batch, bắt đầu \code{workers=1}, lưu checkpoint sau mỗi phần hoàn thành. Chỉ tăng mức song song sau khi đo thời gian và quota thực tế.}
+\newpage
+
+\section{Hiệu quả, nguồn model và phục hồi}
+\subsection{Chọn mức điều phối}
+\begin{tabularx}{\linewidth}{@{}p{6.2cm}Y@{}}
+\toprule
+\textbf{Tình huống}&\textbf{Quy trình đề xuất}\\\midrule
+Yêu cầu ngắn, rõ&\agent{2} hoặc \agent{6}.\\[0.5em]
+Đặc tả còn thiếu&\agent{1} trước công việc sâu.\\[0.5em]
+Cần so sánh phương án&\agent{3}, yêu cầu hai hướng độc lập.\\[0.5em]
+Cần kiểm chứng và sửa nhiều vòng&\agent{4}, giới hạn vòng và ghi lỗi.\\[0.5em]
+Cần thẩm định độc lập&\agent{5}, gắn bằng chứng với T1--T5.\\[0.5em]
+Toán học, sách hoặc phần mềm&\agent{7} hoặc \agent{8} theo chuyên môn.\\
+\bottomrule
+\end{tabularx}
+
+\subsection{Ngữ cảnh và dấu vết}
+Gửi file liên quan thay vì toàn bộ kho dữ liệu ở mỗi vòng. Sau một lần sửa, gửi phần thay đổi và lỗi còn mở. Với DAG, mỗi phần chỉ nhận đầu vào và bất biến nó cần. Nguồn có tuyên bố về mức tiết kiệm token, nhưng công việc tổng hợp này không đo benchmark GNG để xác nhận tỷ lệ cụ thể.
+
+Một checkpoint hữu ích ghi tên nhiệm vụ, artifact đã hoàn thành, việc còn lại, model thực tế và lệnh đã chạy. Chỉ lưu thông tin cần thiết để tiếp tục; không dùng một dòng ``tiếp tục'' làm trạng thái duy nhất.
+
+\subsection{Quota và đổi model}
+Khi gặp 429 hoặc \code{ResourceExhausted}, lưu checkpoint và dừng gọi lặp. Quy tắc nguồn đề xuất chờ hai giờ. Thời gian này là quy ước của thiết kế, không bảo đảm quota của dịch vụ hồi phục đúng thời điểm đó.
+
+Skill auto-resume có trong gói dưới dạng tiện ích tùy chọn. Script cấp hệ điều hành dùng Windows UI/clipboard, nên người dùng cần hiểu tác động của nó trước khi tự chạy. Việc đóng gói không kích hoạt tiện ích này.
+
+\keypoint{\textbf{Minh bạch nguồn:} nếu model không khả dụng hoặc có fallback, nêu lỗi và model thực tế. Skill Apex đề cập fallback, trong khi quy tắc nguồn yêu cầu khai báo thay đổi. Áp dụng cả hai bằng cách giữ dấu vết rõ.}
+\srcref{quy tắc GNG, skill Apex và skill auto-resume}
+\newpage
+
+\section{Giới hạn triển khai và kiểm tra gói}
+\subsection{Các điều kiện chưa đủ}
+\begin{enumerate}
+\item Engine standalone của tám launcher không có trong nguồn đã cung cấp. Đường dẫn F: của chúng cũng không tồn tại tại thời điểm khảo sát.
+\item Các tên model, timeout, token và số vai trò trong rules/skills là cấu hình hoặc mục tiêu thiết kế. Cần xác nhận trên runtime thực tế.
+\item Quy trình sách dùng nhãn model high. Pipeline làm mượt gốc mặc định low và hỗ trợ model/effort. Cách chuyển nhãn cần phù hợp phiên bản \code{agy}.
+\item Audit DOCX/hash không kiểm tra đầy đủ nghĩa của bản sách. Module CPSI cũng không thay thế đọc đối chiếu.
+\item Cơ chế tự tiếp tục cần scheduler hoặc UI cấp hệ điều hành phù hợp. Không coi việc có skill là bằng chứng cơ chế đã chạy.
+\end{enumerate}
+
+\subsection{Tách gói và bảo toàn nguồn}
+Gói riêng chọn rules, tám skills, tám launcher và các script biên tập GNG. Hai bản launcher giống nhau trong nguồn được hợp nhất thành một bản tại root. Phụ thuộc dùng chung được tách thành module GNG riêng, và mọi thay đổi có ghi trong danh mục nguồn.
+
+Pipeline làm mượt điều chỉnh đường dẫn import cục bộ và cách tìm \code{agy}; các chức năng biên tập không đổi theo chủ đích. Module CPSI bỏ nhãn điều phối của hệ ngoài phạm vi, giữ công thức tính. Những điều chỉnh này chưa là thử nghiệm gọi model end-to-end.
+
+\subsection{Xác minh file}
+\code{MANIFEST_SHA256.json} liệt kê payload, kích thước và hash. Script \code{verify_package.py} kiểm tra các file theo manifest. Manifest không tự chứa hash của chính nó.
+\begin{verbatim}
+python verify_package.py
+\end{verbatim}
+
+\keypoint{Kết quả xác minh hash trả lời ``file có đúng byte trong gói không''. Khả năng chạy cần kiểm tra môi trường, engine, model và thư viện. Tính đúng của nội dung cần bằng chứng chuyên môn.}
+\subsection{Căn cứ tài liệu}
+Các mô tả vai trò và đồ thị lấy từ rules/skills GNG. Các giới hạn CLI lấy từ mã launcher. Cờ lệnh và hành vi pipeline lấy từ mã Python. Các prompt và cách chọn mức điều phối là đề xuất sử dụng, không phải kết quả benchmark.
+\newpage
+
+\section*{Danh mục nguồn tham chiếu}
+\addcontentsline{toc}{section}{Danh mục nguồn tham chiếu}
+Các mã dưới đây trỏ đến file nằm trong gói riêng. Đối với script được điều chỉnh, danh mục nguồn ghi hash bản nguồn và hash bản đóng gói.
+
+\begin{enumerate}[label=\textbf{G\arabic*.}]
+\item \path{.agents/rules/gng_models.md}: điều phối, hai mặt phẳng, nguồn model và quota.
+\item \path{.agents/skills/gng1-default/SKILL.md}: kiểm tra đặc tả và giả thiết.
+\item \path{.agents/skills/gng2-direct/SKILL.md}: Direct Pass-Through.
+\item \path{.agents/skills/gng3-pro-ensemble/SKILL.md}: đồ thị Alpha, Beta, Gamma, Omega.
+\item \path{.agents/skills/gng4-apex/SKILL.md}: verifier, auto-repair và fallback.
+\item \path{.agents/skills/gng5-sovereign-gate/SKILL.md}: song trụ và T1--T5.
+\item \path{.agents/skills/gng7-math-prover/SKILL.md}: Lemma-DAG và đầu ra toán học.
+\item \path{.agents/skills/gng7-book-editorial/SKILL.md}: nguyên tắc biên tập.
+\item \path{.agents/skills/gng7-book-editorial/scripts/}: pipeline sách, renderer DOCX và audit file.
+\item \path{.agents/skills/gng8-general-solver/SKILL.md}: Component-DAG và kỹ thuật phần mềm.
+\item \path{.agents/skills/gng-smooth-book/scripts/}: pipeline làm mượt, Word styler, CPSI.
+\item \path{.agents/skills/ext-agy-auto-resume/}: tiện ích quota tùy chọn.
+\item \code{gng1.py} đến \code{gng8.py}: các launcher CLI.
+\end{enumerate}
+
+\subsection*{Gợi ý đọc theo nhu cầu}
+Người mới đọc bản đồ vai trò, hai mặt phẳng, rồi phần thiết lập. Người nghiên cứu toán đọc thêm phần \agent{7} và cổng thẩm định. Người biên tập sách cần đối chiếu cờ CLI với mã script và kiểm tra hai lớp nội dung/file. Người làm phần mềm đọc Component-DAG, tiêu chí hoàn tất và mẫu prompt \agent{8}.
+
+\vfill
+{\small\color{muted}Tài liệu phiên bản 04/10/2026. Phạm vi: hệ GNG và các phụ thuộc được tách riêng. Không có xác nhận gọi model GNG end-to-end trong quá trình tổng hợp tài liệu.}
+\end{document}

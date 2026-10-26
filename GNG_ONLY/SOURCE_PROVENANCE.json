@@ -1,0 +1,215 @@
+{
+  "source_archive_sha256": "b15cd477d692e38010d8788a4a0b2579c678dad4993902912fd858efa5b52849",
+  "created_date": "2026-10-04",
+  "duplicate_launchers": "Root launchers are identical to the secondary source copies; one copy per agent is retained.",
+  "files": [
+    {
+      "package_path": "gng1.py",
+      "source_member": "gng1.py",
+      "source_sha256": "7e14e2c7ebaa711fcb2ab80fe0ff737467aa51e3b882f475996f776e167fd75f",
+      "package_sha256": "7e14e2c7ebaa711fcb2ab80fe0ff737467aa51e3b882f475996f776e167fd75f",
+      "status": "original",
+      "change": ""
+    },
+    {
+      "package_path": "gng2.py",
+      "source_member": "gng2.py",
+      "source_sha256": "1f715952002b0a3621a1b4b972468c63720a8149127216e3c35eb1253563c109",
+      "package_sha256": "1f715952002b0a3621a1b4b972468c63720a8149127216e3c35eb1253563c109",
+      "status": "original",
+      "change": ""
+    },
+    {
+      "package_path": "gng3.py",
+      "source_member": "gng3.py",
+      "source_sha256": "6faa17da6d776b2250dd97ca6a7be7c1b8bf75f7ca75232cf98f939db4298ceb",
+      "package_sha256": "6faa17da6d776b2250dd97ca6a7be7c1b8bf75f7ca75232cf98f939db4298ceb",
+      "status": "original",
+      "change": ""
+    },
+    {
+      "package_path": "gng4.py",
+      "source_member": "gng4.py",
+      "source_sha256": "3003c98110266c9857f7ea3b342d72bb6f95b9177ec5a32fea738b9d4daa0812",
+      "package_sha256": "3003c98110266c9857f7ea3b342d72bb6f95b9177ec5a32fea738b9d4daa0812",
+      "status": "original",
+      "change": ""
+    },
+    {
+      "package_path": "gng5.py",
+      "source_member": "gng5.py",
+      "source_sha256": "1580090357f84eb2793e20a9897eb2abc78504aea6f15cf662bba92a72ca872a",
+      "package_sha256": "1580090357f84eb2793e20a9897eb2abc78504aea6f15cf662bba92a72ca872a",
+      "status": "original",
+      "change": ""
+    },
+    {
+      "package_path": "gng6.py",
+      "source_member": "gng6.py",
+      "source_sha256": "ff1e842c71e1b5de8a1276a7db0435a62025502c33e1091c75925b045896d665",
+      "package_sha256": "ff1e842c71e1b5de8a1276a7db0435a62025502c33e1091c75925b045896d665",
+      "status": "original",
+      "change": ""
+    },
+    {
+      "package_path": "gng7.py",
+      "source_member": "gng7.py",
+      "source_sha256": "1d92bedc12cb41a0191ece1ee44f01f0a3892f36f1d42252b0581b59099d5bf1",
+      "package_sha256": "1d92bedc12cb41a0191ece1ee44f01f0a3892f36f1d42252b0581b59099d5bf1",
+      "status": "original",
+      "change": ""
+    },
+    {
+      "package_path": "gng8.py",
+      "source_member": "gng8.py",
+      "source_sha256": "4b4db7d4ca168965890f3d4371ed1559b63d5df2e2198c88b037ec271184f819",
+      "package_sha256": "4b4db7d4ca168965890f3d4371ed1559b63d5df2e2198c88b037ec271184f819",
+      "status": "original",
+      "change": ""
+    },
+    {
+      "package_path": ".agents/rules/gng_models.md",
+      "source_member": "02_WORKSPACE_AGENTS/rules/gng_models.md",
+      "source_sha256": "b0038b8338b5012164a011120c3cb87c6c2dbd4e7a51610333dabee9a66ecc74",
+      "package_sha256": "b0038b8338b5012164a011120c3cb87c6c2dbd4e7a51610333dabee9a66ecc74",
+      "status": "original",
+      "change": ""
+    },
+    {
+      "package_path": ".agents/skills/ext-agy-auto-resume/SKILL.md",
+      "source_member": "02_WORKSPACE_AGENTS/skills/ext-agy-auto-resume/SKILL.md",
+      "source_sha256": "6189df7c8bdd5d2a44abae3c3141c3ec453872fe8b4ee26c68af7cbcea246429",
+      "package_sha256": "6189df7c8bdd5d2a44abae3c3141c3ec453872fe8b4ee26c68af7cbcea246429",
+      "status": "original",
+      "change": ""
+    },
+    {
+      "package_path": ".agents/skills/ext-agy-auto-resume/scripts/auto_resume.py",
+      "source_member": "02_WORKSPACE_AGENTS/skills/ext-agy-auto-resume/scripts/auto_resume.py",
+      "source_sha256": "f5659ae6376992a34646127d442480feb4c0b8df11d8534549b0811c13bd2177",
+      "package_sha256": "f5659ae6376992a34646127d442480feb4c0b8df11d8534549b0811c13bd2177",
+      "status": "original",
+      "change": ""
+    },
+    {
+      "package_path": ".agents/skills/gng1-default/SKILL.md",
+      "source_member": "02_WORKSPACE_AGENTS/skills/gng1-default/SKILL.md",
+      "source_sha256": "9bdf9539e63a8719d38cb992f6c597512198ed23c9b255d1655ea15bd7421260",
+      "package_sha256": "9bdf9539e63a8719d38cb992f6c597512198ed23c9b255d1655ea15bd7421260",
+      "status": "original",
+      "change": ""
+    },
+    {
+      "package_path": ".agents/skills/gng2-direct/SKILL.md",
+      "source_member": "02_WORKSPACE_AGENTS/skills/gng2-direct/SKILL.md",
+      "source_sha256": "031d692dfdf4f26ab7e5ea9bcb4b7bc6710b399b5229b55beb2a08860be541ed",
+      "package_sha256": "031d692dfdf4f26ab7e5ea9bcb4b7bc6710b399b5229b55beb2a08860be541ed",
+      "status": "original",
+      "change": ""
+    },
+    {
+      "package_path": ".agents/skills/gng3-pro-ensemble/SKILL.md",
+      "source_member": "02_WORKSPACE_AGENTS/skills/gng3-pro-ensemble/SKILL.md",
+      "source_sha256": "9a2c40a3f7a02ea5b247e0f536d470eaf633a3e8e88765c13c70bdf62356015b",
+      "package_sha256": "9a2c40a3f7a02ea5b247e0f536d470eaf633a3e8e88765c13c70bdf62356015b",
+      "status": "original",
+      "change": ""
+    },
+    {
+      "package_path": ".agents/skills/gng4-apex/SKILL.md",
+      "source_member": "02_WORKSPACE_AGENTS/skills/gng4-apex/SKILL.md",
+      "source_sha256": "cfb5ef20a9fe46f571a3692f2bd2319d9c3e4c9c7987eb17eb10defe140828dd",
+      "package_sha256": "cfb5ef20a9fe46f571a3692f2bd2319d9c3e4c9c7987eb17eb10defe140828dd",
+      "status": "original",
+      "change": ""
+    },
+    {
+      "package_path": ".agents/skills/gng5-sovereign-gate/SKILL.md",
+      "source_member": "02_WORKSPACE_AGENTS/skills/gng5-sovereign-gate/SKILL.md",
+      "source_sha256": "a4d722d7ec43da8c370c2becbf2e6c547b570e5099d70dd3e665e61e533761f9",
+      "package_sha256": "a4d722d7ec43da8c370c2becbf2e6c547b570e5099d70dd3e665e61e533761f9",
+      "status": "original",
+      "change": ""
+    },
+    {
+      "package_path": ".agents/skills/gng7-book-editorial/SKILL.md",
+      "source_member": "02_WORKSPACE_AGENTS/skills/gng7-book-editorial/SKILL.md",
+      "source_sha256": "271d00a4935e43e4c67e407ecfdeab5897b6d895c3868aaee538e87ed37220f0",
+      "package_sha256": "271d00a4935e43e4c67e407ecfdeab5897b6d895c3868aaee538e87ed37220f0",
+      "status": "original",
+      "change": ""
+    },
+    {
+      "package_path": ".agents/skills/gng7-book-editorial/references/editorial_guidelines.md",
+      "source_member": "02_WORKSPACE_AGENTS/skills/gng7-book-editorial/references/editorial_guidelines.md",
+      "source_sha256": "51b8e74e97bc6ccb13cd295dd4e6e4008663599ebae5ddfb2e305c033bad466f",
+      "package_sha256": "51b8e74e97bc6ccb13cd295dd4e6e4008663599ebae5ddfb2e305c033bad466f",
+      "status": "original",
+      "change": ""
+    },
+    {
+      "package_path": ".agents/skills/gng7-book-editorial/scripts/audit_book_collection.py",
+      "source_member": "02_WORKSPACE_AGENTS/skills/gng7-book-editorial/scripts/audit_book_collection.py",
+      "source_sha256": "70a82cffd79817ea7561cf9929107acedbb5dcb027c880ddff5fa0ce55d422b6",
+      "package_sha256": "70a82cffd79817ea7561cf9929107acedbb5dcb027c880ddff5fa0ce55d422b6",
+      "status": "original",
+      "change": ""
+    },
+    {
+      "package_path": ".agents/skills/gng7-book-editorial/scripts/gng7_book_pipeline.py",
+      "source_member": "02_WORKSPACE_AGENTS/skills/gng7-book-editorial/scripts/gng7_book_pipeline.py",
+      "source_sha256": "3707aeae19b26646d42a002ba0ae2e6189234a1844aaef0dc664a23a7a9e12ed",
+      "package_sha256": "3707aeae19b26646d42a002ba0ae2e6189234a1844aaef0dc664a23a7a9e12ed",
+      "status": "original",
+      "change": ""
+    },
+    {
+      "package_path": ".agents/skills/gng7-book-editorial/scripts/render_book_docx.py",
+      "source_member": "02_WORKSPACE_AGENTS/skills/gng7-book-editorial/scripts/render_book_docx.py",
+      "source_sha256": "2901902625557c3afa0c9eb289ad1ed88ff987875cb27480f77f342ed251d2b5",
+      "package_sha256": "2901902625557c3afa0c9eb289ad1ed88ff987875cb27480f77f342ed251d2b5",
+      "status": "original",
+      "change": ""
+    },
+    {
+      "package_path": ".agents/skills/gng7-math-prover/SKILL.md",
+      "source_member": "02_WORKSPACE_AGENTS/skills/gng7-math-prover/SKILL.md",
+      "source_sha256": "407847db8521f170d827672f647c222cc5f6967e7048fed85be132ca187b78c4",
+      "package_sha256": "407847db8521f170d827672f647c222cc5f6967e7048fed85be132ca187b78c4",
+      "status": "original",
+      "change": ""
+    },
+    {
+      "package_path": ".agents/skills/gng8-general-solver/SKILL.md",
+      "source_member": "02_WORKSPACE_AGENTS/skills/gng8-general-solver/SKILL.md",
+      "source_sha256": "b7d742148a4ccf1f8b13660fc07fe40c1dbab302b3021359944b645469f2bee0",
+      "package_sha256": "b7d742148a4ccf1f8b13660fc07fe40c1dbab302b3021359944b645469f2bee0",
+      "status": "original",
+      "change": ""
+    },
+    {
+      "package_path": ".agents/skills/gng-smooth-book/scripts/gng_smooth_book_pipeline.py",
+      "source_member": "02_WORKSPACE_AGENTS/skills/ext-lam-muot-gemini/scripts/gng_smooth_book_pipeline.py",
+      "source_sha256": "9bf27105f488a9cd53e6c2120a960af27d171e813ccb0dfa72e62c6c676fcbe8",
+      "package_sha256": "546c2985ac2da086575d90e68ff7d22b8f16a42b43a4ad5385a0a993b5e9111c",
+      "status": "adapted",
+      "change": "Use package-local Word styler and resolve agy from AGY_BIN/PATH/user directory."
+    },
+    {
+      "package_path": ".agents/skills/gng-smooth-book/scripts/docx_book_styler_v2.py",
+      "source_member": "02_WORKSPACE_AGENTS/skills/ext-lam-muot-loi-thoai/scripts/docx_book_styler_v2.py",
+      "source_sha256": "796c66338cee61fdc14af7c0ba5e7b6c2c121c288a88425d8ead037043bfe058",
+      "package_sha256": "796c66338cee61fdc14af7c0ba5e7b6c2c121c288a88425d8ead037043bfe058",
+      "status": "original",
+      "change": "Copied as a package-local dependency."
+    },
+    {
+      "package_path": ".agents/skills/gng-smooth-book/scripts/eval_cpsi_metrics.py",
+      "source_member": "02_WORKSPACE_AGENTS/skills/ext-lam-muot-gemini/scripts/eval_cpsi_metrics.py",
+      "source_sha256": "e846f2bc4cf8de30c202ab9fd121ab9ca57e42325ac03be0dc5d80e5ef5d7181",
+      "package_sha256": "d3dd80c66954e1145f66d1b6d5e945d73f0429ba04b30d1f5d7881adbda4bc31",
+      "status": "adapted",
+      "change": "Removed unrelated coordinator labels from docstring/output. Similarity calculations unchanged."
+    }
+  ]
+}
